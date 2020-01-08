@@ -10,6 +10,7 @@ Testing 'Factory' projects like 'Apache Factory' or 'Mail Server Factory'.
 ## Remote server dependencies
 
 - Curl
+- Git
 - Python v3
 
 ## How to use it:
