@@ -10,7 +10,12 @@ key_port = "port"
 key_host = "host"
 key_tests = "tests"
 key_test_name = "name"
+key_test_type = "type"
 configuration_file = "configuration.json"
+
+def get_installation_command(type):
+    return "echo 'Unsupported application type: " + type + "'"
+
 
 def run_test():
     if not path.exists(configuration_file):
@@ -23,7 +28,7 @@ def run_test():
         steps = [
             ssh(
                 data[key_ssh][key_user], 
-                "date", #  TODO: Trigger propper command remotely.
+                get_installation_command(test[key_test_type]),
                 port=data[key_ssh][key_port], 
                 host=data[key_ssh][key_host]
             )
