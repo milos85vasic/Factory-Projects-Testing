@@ -13,7 +13,8 @@ TBD.
 ```json
 {
     "ssh": {
-        "port": 22,
+        "user": "root",
+        "port": 7722,
         "host": "127.0.0.1"
     }
 }

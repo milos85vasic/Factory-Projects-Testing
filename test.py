@@ -1,10 +1,18 @@
 import sys
+import json
 from Toolkit.commands import *
 
 
 def run_test():
+    data = json.load(open("configuration.json"))
+
     steps = [
-        ssh("root", "date", port=22, host="127.0.0.1")
+        ssh(
+            data["ssh"]["user"], 
+            "date", #  TODO: Trigger propper command remotely.
+            port=data["ssh"]["port"], 
+            host=data["ssh"]["host"]
+        )
     ]
 
     run(steps)
