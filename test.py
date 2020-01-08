@@ -4,7 +4,7 @@ from Toolkit.commands import *
 
 def run_test():
     steps = [
-        "echo 'test!'"
+        ssh("root", "date", port=22, host="127.0.0.1")
     ]
 
     run(steps)
