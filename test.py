@@ -1,19 +1,28 @@
 import sys
 import json
+
+from os import path
 from Toolkit.commands import *
 
+key_ssh = "ssh"
+key_user = "user"
+key_port = "port"
+key_host = "host"
+configuration_file = "configuration.json"
 
 def run_test():
-    # TODO: Check if file exists. If not exit with error.
+    if not path.exists(configuration_file):
+        sys.exit("Configuration file is not available.")
+        return
 
-    data = json.load(open("configuration.json"))
+    data = json.load(open(configuration_file))
 
     steps = [
         ssh(
-            data["ssh"]["user"], 
+            data[key_ssh][key_user], 
             "date", #  TODO: Trigger propper command remotely.
-            port=data["ssh"]["port"], 
-            host=data["ssh"]["host"]
+            port=data[key_ssh][key_port], 
+            host=data[key_ssh][key_host]
         )
     ]
 

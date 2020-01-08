@@ -8,7 +8,7 @@ Testing 'Factory' projects like 'Apache Factory' or 'Mail Server Factory'.
 ## How to use it:
 TBD.
 
-### Configuring remote server access
+### Example configuration
 
 ```json
 {
@@ -16,7 +16,16 @@ TBD.
         "user": "root",
         "port": 7722,
         "host": "127.0.0.1"
-    }
+    },
+    "tests": [
+        {
+            "name": "Test 1",
+            "type": "Mail-Server-Factory",
+            "configuration": {
+                
+            }
+        }
+    ]
 }
 ```
 
