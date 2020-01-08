@@ -11,10 +11,15 @@ key_host = "host"
 key_tests = "tests"
 key_test_name = "name"
 key_test_type = "type"
+key_application_mail_server_factory = "Mail-Server-Factory"
+
 configuration_file = "configuration.json"
 
 def get_installation_command(type):
-    return "echo 'Unsupported application type: " + type + "'"
+    switcher = {
+        key_application_mail_server_factory: "echo '- - - - - TODO'"
+    }
+    return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
 
 
 def run_test():
