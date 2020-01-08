@@ -1,9 +1,13 @@
 import sys
-import Toolkit.commands
+from Toolkit.commands import *
 
 
 def run_test():
-    print("Under development.")
+    steps = [
+        "echo 'test!'"
+    ]
+
+    run(steps)
 
 
 if __name__ == '__main__':
