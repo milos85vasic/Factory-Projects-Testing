@@ -7,3 +7,15 @@ Testing 'Factory' projects like 'Apache Factory' or 'Mail Server Factory'.
 
 ## How to use it:
 TBD.
+
+### Configuring remote server access
+
+```json
+{
+    "ssh": {
+        "port": 22,
+        "host": "127.0.0.1"
+    }
+}
+```
+
