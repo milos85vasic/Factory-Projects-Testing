@@ -17,7 +17,8 @@ configuration_file = "configuration.json"
 
 def get_installation_command(type):
     switcher = {
-        key_application_mail_server_factory: "echo '- - - - - TODO'"
+        key_application_mail_server_factory: 
+            "curl https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/websetup.py > websetup.py" #  TODO: ; \ python3 websetup.py Mail-Server-Factory
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
 
@@ -33,7 +34,7 @@ def run_test():
         steps = [
             ssh(
                 data[key_ssh][key_user], 
-                get_installation_command(test[key_test_type]),
+                "'" + get_installation_command(test[key_test_type]) + "'",
                 port=data[key_ssh][key_port], 
                 host=data[key_ssh][key_host]
             )
