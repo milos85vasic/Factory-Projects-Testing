@@ -4,6 +4,8 @@ from Toolkit.commands import *
 
 
 def run_test():
+    # TODO: Check if file exists. If not exit with error.
+
     data = json.load(open("configuration.json"))
 
     steps = [
