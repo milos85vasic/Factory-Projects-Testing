@@ -21,7 +21,7 @@ def get_installation_commands(type):
             [
                 curl_to("https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/echo_python_cmd.sh", "echo_python_cmd.sh"),
                 curl_to("https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/websetup.py", "websetup.py"),
-                "`sh Toolkit/echo_python_cmd.sh` websetup.py Mail-Server-Factory"
+                "`sh echo_python_cmd.sh` websetup.py Mail-Server-Factory"
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
