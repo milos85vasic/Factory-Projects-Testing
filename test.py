@@ -23,7 +23,14 @@ def get_installation_command(type):
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
 
 
+def cleanup_test():
+    #  Do cleanup the test.
+    return
+
+
 def run_test():
+    cleanup_test()
+
     if not path.exists(configuration_file):
         sys.exit("Configuration file is not available.")
         return
