@@ -20,8 +20,7 @@ def get_installation_commands(type):
         key_application_mail_server_factory: 
             [
                 curl("https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/websetup.py") + " > websetup.py",
-                #  FIXME: Local get_python_cmd does not work for this!
-                get_python_cmd() + " websetup.py Mail-Server-Factory"
+                "`sh Toolkit/echo_python_cmd.sh` websetup.py Mail-Server-Factory"
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
