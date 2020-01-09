@@ -18,7 +18,8 @@ configuration_file = "configuration.json"
 def get_installation_command(type):
     switcher = {
         key_application_mail_server_factory: 
-            "curl https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/websetup.py > websetup.py; python3 websetup.py Mail-Server-Factory"
+            curl(https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/websetup.py) + 
+            " > websetup.py; " + get_python_cmd() + " websetup.py Mail-Server-Factory"
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
 
