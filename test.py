@@ -4,7 +4,7 @@ import json
 from os import path
 from Toolkit.commands import *
 
-key_ssh = "ssh"
+key_sshs = "sshs"
 key_user = "user"
 key_port = "port"
 key_host = "host"
@@ -69,22 +69,23 @@ def run_test():
         return
 
     data = json.load(open(configuration_file))
-    ssh_access = data[key_ssh]
+    ssh_accesses = data[key_sshs]
 
-    steps = []
-    for test in data[key_tests]:
-        print("Executing test:", test[key_test_name])
-        for command in get_cleanup_commands(test[key_test_type]):
-            append_command(steps, ssh_access, command)
+    for ssh_access in ssh_accesses:
+        steps = []
+        for test in data[key_tests]:
+            print("Executing test:", test[key_test_name])
+            for command in get_cleanup_commands(test[key_test_type]):
+                append_command(steps, ssh_access, command)
 
-        for command in get_installation_commands(test[key_test_type]):
-            append_command(steps, ssh_access, command)
+            for command in get_installation_commands(test[key_test_type]):
+                append_command(steps, ssh_access, command)
 
-        for command in get_shutdown_commands(test[key_test_type]):
-            append_command(steps, ssh_access, command)
-        
-        run(steps)
-        print("Test executed:", test[key_test_name])
+            for command in get_shutdown_commands(test[key_test_type]):
+                append_command(steps, ssh_access, command)
+            
+            run(steps)
+            print("Test executed:", test[key_test_name])
 
 
 if __name__ == '__main__':

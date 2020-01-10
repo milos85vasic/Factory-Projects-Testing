@@ -21,11 +21,13 @@ TBD.
 
 ```json
 {
-    "ssh": {
-        "user": "root",
-        "port": 7722,
-        "host": "127.0.0.1"
-    },
+    "sshs": [
+        {
+            "user": "root",
+            "port": 7722,
+            "host": "127.0.0.1"
+        }
+    ],
     "tests": [
         {
             "name": "Test 1",
