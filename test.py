@@ -64,7 +64,7 @@ def get_start_commands(type):
             [
                 concatenate(
                     cd(key_application_mail_server_factory),
-                    get_python_cmd() + "add_account.py test_1"
+                    "`sh " + echo_python_cmd_script + "` " + " add_account.py test_1"
                 )
             ]
     }
