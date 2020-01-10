@@ -1,5 +1,6 @@
 import sys
 import json
+import time
 
 from os import path
 from Toolkit.commands import *
@@ -20,15 +21,18 @@ toolkit_directory = "Toolkit"
 toolkit_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/"
 
 def get_installation_commands(type):
+    millis = int(round(time.time() * 1000))
+    url_millis = "?_=" + str(millis)
     switcher = {
         key_application_mail_server_factory: 
             [
-                curl_to(toolkit_repo_raw_access + echo_python_cmd_script, echo_python_cmd_script),
-                curl_to(toolkit_repo_raw_access + websetup_script, websetup_script),
+                curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
+                curl_to(toolkit_repo_raw_access + websetup_script + url_millis, websetup_script),
                 "`sh " + echo_python_cmd_script + "` " + websetup_script + " " + key_application_mail_server_factory,
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
+
 
 def get_shutdown_commands(type):
     switcher = {
