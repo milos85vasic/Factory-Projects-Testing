@@ -23,42 +23,45 @@ toolkit_directory = "Toolkit"
 toolkit_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/"
 factory_testing_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Factory-Projects-Testing/master/"
 
-def get_installation_commands(type):
+
+def get_init_commands():
     millis = int(round(time.time() * 1000))
     url_millis = "?_=" + str(millis)
+    steps = [
+        #  TODO: Obtain Toolkit.
+        curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
+        curl_to(toolkit_repo_raw_access + websetup_script + url_millis, websetup_script),
+        curl_to(factory_testing_repo_raw_access + remove_test_users_script + url_millis, remove_test_users_script),
+        "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + remove_test_users_script
+    ]
+    return steps
+
+
+def get_shutdown_commands():
+    steps = [
+        rm(echo_python_cmd_script),
+        rm(toolkit_directory),
+        rm(websetup_script),
+        rm(echo_python_cmd_script)
+    ]
+    return steps
+
+
+def get_installation_commands(type):
     switcher = {
         key_application_mail_server_factory: 
             [
-                curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
-                curl_to(toolkit_repo_raw_access + websetup_script + url_millis, websetup_script),
                 "`sh " + echo_python_cmd_script + "` " + websetup_script + " " + key_application_mail_server_factory,
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
 
 
-def get_shutdown_commands(type):
-    switcher = {
-        key_application_mail_server_factory: 
-            [
-                rm(echo_python_cmd_script)
-            ]
-    }
-    return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
-
-
 def get_cleanup_commands(type):
-    millis = int(round(time.time() * 1000))
-    url_millis = "?_=" + str(millis)
     switcher = {
         key_application_mail_server_factory: 
             [
-                curl_to(factory_testing_repo_raw_access + remove_test_users_script + url_millis, remove_test_users_script),
-                "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + remove_test_users_script,
                 rm(key_application_mail_server_factory),
-                rm(toolkit_directory),
-                rm(websetup_script),
-                rm(echo_python_cmd_script),
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
@@ -99,6 +102,10 @@ def run_test():
 
     for ssh_access in ssh_accesses:
         steps = []
+        for command in get_init_commands():
+            append_command(steps, ssh_access, command)
+        run(steps)
+        
         for test in data[key_tests]:
             print("Executing test:", test[key_test_name])
             for command in get_cleanup_commands(test[key_test_type]):
@@ -110,11 +117,13 @@ def run_test():
             for command in get_start_commands(test[key_test_type]):
                 append_command(steps, ssh_access, command)
 
-            for command in get_shutdown_commands(test[key_test_type]):
-                append_command(steps, ssh_access, command)
-            
             run(steps)
             print("Test executed:", test[key_test_name])
+        
+        steps = []
+        for command in get_shutdown_commands():
+            append_command(steps, ssh_access, command)
+        run(steps)
 
 
 if __name__ == '__main__':
