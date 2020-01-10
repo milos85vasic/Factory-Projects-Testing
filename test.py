@@ -48,7 +48,7 @@ def get_cleanup_commands(type):
     switcher = {
         key_application_mail_server_factory: 
             [
-                rm(toolkit_directory),  # TODO: + "_*"
+                rm(toolkit_directory),
                 rm(websetup_script),
                 rm(echo_python_cmd_script)
             ]
