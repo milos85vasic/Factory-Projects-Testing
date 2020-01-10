@@ -52,6 +52,20 @@ def get_cleanup_commands(type):
                 rm(toolkit_directory),
                 rm(websetup_script),
                 rm(echo_python_cmd_script)
+                #  TODO: Remove all test users.
+            ]
+    }
+    return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
+
+
+def get_start_commands(type):
+    switcher = {
+        key_application_mail_server_factory: 
+            [
+                concatenate(
+                    cd(key_application_mail_server_factory),
+                    get_python_cmd() + "add_account.py test_1"
+                )
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
@@ -84,6 +98,9 @@ def run_test():
                 append_command(steps, ssh_access, command)
 
             for command in get_installation_commands(test[key_test_type]):
+                append_command(steps, ssh_access, command)
+
+            for command in get_start_commands(test[key_test_type]):
                 append_command(steps, ssh_access, command)
 
             for command in get_shutdown_commands(test[key_test_type]):
