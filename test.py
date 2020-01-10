@@ -32,7 +32,7 @@ def get_init_commands():
         curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
         curl_to(toolkit_repo_raw_access + websetup_script + url_millis, websetup_script),
         curl_to(factory_testing_repo_raw_access + remove_test_users_script + url_millis, remove_test_users_script),
-        "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + remove_test_users_script
+        "`sh " + echo_python_cmd_script + "` " + remove_test_users_script
     ]
     return steps
 
@@ -42,7 +42,8 @@ def get_shutdown_commands():
         rm(echo_python_cmd_script),
         rm(toolkit_directory),
         rm(websetup_script),
-        rm(echo_python_cmd_script)
+        rm(echo_python_cmd_script),
+        rm(remove_test_users_script)
     ]
     return steps
 
