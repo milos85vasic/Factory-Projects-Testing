@@ -16,10 +16,12 @@ key_application_mail_server_factory = "Mail-Server-Factory"
 
 test_user_prefix = "test_factoy_user_"
 websetup_script = "websetup.py"
+remove_test_users_script = "remove_test_users.py"
 echo_python_cmd_script = "echo_python_cmd.sh"
 configuration_file = "configuration.json"
 toolkit_directory = "Toolkit"
 toolkit_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/"
+factory_testing_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Factory-Projects-Testing/master/"
 
 def get_installation_commands(type):
     millis = int(round(time.time() * 1000))
@@ -45,32 +47,18 @@ def get_shutdown_commands(type):
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
 
 
-def cleanup_test_users():
-    command = ""
-    users = get_users_list()
-    for i, user in enumerate(users):
-        if test_user_prefix in user:
-            command += userdel(user)
-            if i < users.__len__ - 1:
-                command += ";"
-            print("USer del. command: " + command)
-    return command
-
-
-def cleanup_special_groups():
-    #  TODO:        
-    return ""
-
-
 def get_cleanup_commands(type):
+    millis = int(round(time.time() * 1000))
+    url_millis = "?_=" + str(millis)
     switcher = {
         key_application_mail_server_factory: 
             [
+                curl_to(factory_testing_repo_raw_access + remove_test_users_script + url_millis, remove_test_users_script),
+                "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + remove_test_users_script,
                 rm(key_application_mail_server_factory),
                 rm(toolkit_directory),
                 rm(websetup_script),
                 rm(echo_python_cmd_script),
-                cleanup_test_users()
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
