@@ -50,7 +50,8 @@ def get_shutdown_commands():
         rm(websetup_script),
         rm(echo_python_cmd_script),
         rm(remove_test_users_script),
-        rm(self_script)
+        rm(self_script),
+        rm("__pycache__")
     ]
     return steps
 
