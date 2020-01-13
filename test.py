@@ -20,19 +20,20 @@ remove_test_users_script = "remove_test_users.py"
 echo_python_cmd_script = "echo_python_cmd.sh"
 configuration_file = "configuration.json"
 toolkit_directory = "Toolkit"
+toolkit_repo = "https://github.com/milos85vasic/Apache-Factory-Toolkit.git"
 toolkit_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/"
 factory_testing_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Factory-Projects-Testing/master/"
-
 
 def get_init_commands():
     millis = int(round(time.time() * 1000))
     url_millis = "?_=" + str(millis)
     steps = [
-        #  TODO: Obtain Toolkit.
-        curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
-        curl_to(toolkit_repo_raw_access + websetup_script + url_millis, websetup_script),
-        curl_to(factory_testing_repo_raw_access + remove_test_users_script + url_millis, remove_test_users_script),
-        "`sh " + echo_python_cmd_script + "` " + remove_test_users_script
+                "mkdir " + toolkit_directory,
+                "git clone --recurse-submodules " + toolkit_repo + " ./" + toolkit_directory,
+                curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
+                curl_to(toolkit_repo_raw_access + websetup_script + url_millis, websetup_script),
+                curl_to(factory_testing_repo_raw_access + remove_test_users_script + url_millis, remove_test_users_script),
+                "`sh " + echo_python_cmd_script + "` " + remove_test_users_script
     ]
     return steps
 
