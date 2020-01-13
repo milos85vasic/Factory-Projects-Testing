@@ -8,7 +8,6 @@ def cleanup_test_users():
     for user in users:
         if test_user_prefix in user:
             command += userdel(user) + ";"
-            print("User del. command: " + command)
     return command
 
 
