@@ -4,6 +4,7 @@ import time
 
 from os import path
 from Toolkit.commands import *
+from Toolkit.configuration import *
 
 key_sshs = "sshs"
 key_user = "user"
@@ -69,6 +70,7 @@ def get_cleanup_commands(type):
         key_application_mail_server_factory: 
             [
                 rm(key_application_mail_server_factory),
+                groupdel(mail_server_factory_group)
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
