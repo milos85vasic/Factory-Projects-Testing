@@ -29,6 +29,7 @@ def get_init_commands():
     url_millis = "?_=" + str(millis)
     self_script = os.path.basename(__file__)
     steps = [
+                rm(toolkit_directory),
                 "mkdir " + toolkit_directory,
                 "git clone --recurse-submodules " + toolkit_repo + " ./" + toolkit_directory,
                 curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
