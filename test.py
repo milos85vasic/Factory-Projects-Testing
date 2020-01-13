@@ -83,9 +83,7 @@ def get_start_commands(type):
             [
                 concatenate(
                     cd(key_application_mail_server_factory),
-                    run_as_su(
-                        "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + " add_account.py " + test_user_prefix + str(millis)
-                    )
+                    "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + " add_account.py " + test_user_prefix + str(millis)
                 )
             ]
     }
