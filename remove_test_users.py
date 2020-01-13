@@ -1,6 +1,6 @@
 from Toolkit.commands import *
 
-from .test import test_user_prefix
+from test import test_user_prefix
 
 def cleanup_test_users():
     command = ""
