@@ -5,11 +5,9 @@ from test import test_user_prefix
 def cleanup_test_users():
     command = ""
     users = get_users_list()
-    for i, user in enumerate(users):
+    for user in users:
         if test_user_prefix in user:
-            command += userdel(user)
-            if i < users.__len__ - 1:
-                command += ";"
+            command += userdel(user) + ";"
             print("User del. command: " + command)
     return command
 
