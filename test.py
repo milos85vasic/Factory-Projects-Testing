@@ -27,11 +27,13 @@ factory_testing_repo_raw_access = "https://raw.githubusercontent.com/milos85vasi
 def get_init_commands():
     millis = int(round(time.time() * 1000))
     url_millis = "?_=" + str(millis)
+    self_script = os.path.basename(__file__)
     steps = [
                 "mkdir " + toolkit_directory,
                 "git clone --recurse-submodules " + toolkit_repo + " ./" + toolkit_directory,
                 curl_to(toolkit_repo_raw_access + echo_python_cmd_script + url_millis, echo_python_cmd_script),
                 curl_to(toolkit_repo_raw_access + websetup_script + url_millis, websetup_script),
+                curl_to(factory_testing_repo_raw_access + self_script + url_millis, self_script),
                 curl_to(factory_testing_repo_raw_access + remove_test_users_script + url_millis, remove_test_users_script),
                 "`sh " + echo_python_cmd_script + "` " + remove_test_users_script
     ]
@@ -39,12 +41,14 @@ def get_init_commands():
 
 
 def get_shutdown_commands():
+    self_script = os.path.basename(__file__)
     steps = [
         rm(echo_python_cmd_script),
         rm(toolkit_directory),
         rm(websetup_script),
         rm(echo_python_cmd_script),
-        rm(remove_test_users_script)
+        rm(remove_test_users_script),
+        rm(self_script)
     ]
     return steps
 
