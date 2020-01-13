@@ -70,7 +70,8 @@ def get_cleanup_commands(type):
         key_application_mail_server_factory: 
             [
                 rm(key_application_mail_server_factory),
-                groupdel(mail_server_factory_group)
+                groupdel(mail_server_factory_group),
+                rm(mail_server_factory_configuration_dir)
             ]
     }
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
