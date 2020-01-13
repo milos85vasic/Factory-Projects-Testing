@@ -83,7 +83,7 @@ def get_start_commands(type):
             [
                 concatenate(
                     cd(key_application_mail_server_factory),
-                    "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + " add_account.py " + test_user_prefix + str(millis)
+                    "su -c '`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + " add_account.py " + test_user_prefix + str(millis) + "'"
                 )
             ]
     }
