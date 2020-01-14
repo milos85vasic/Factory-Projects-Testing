@@ -18,7 +18,6 @@ key_test_configuration_account = "account"
 key_test_configuration_password = "password"
 key_application_mail_server_factory = "Mail-Server-Factory"
 
-test_user_prefix = "test_factoy_user_"
 websetup_script = "websetup.py"
 remove_test_users_script = "remove_test_users.py"
 echo_python_cmd_script = "echo_python_cmd.sh"
@@ -27,6 +26,8 @@ toolkit_directory = "Toolkit"
 toolkit_repo = "https://github.com/milos85vasic/Apache-Factory-Toolkit.git"
 toolkit_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Apache-Factory-Toolkit/master/"
 factory_testing_repo_raw_access = "https://raw.githubusercontent.com/milos85vasic/Factory-Projects-Testing/master/"
+
+test_user_prefix = "test_factory_user_"
 
 def get_init_commands():
     millis = int(round(time.time() * 1000))
@@ -87,9 +88,10 @@ def get_start_commands(type, configuration):
         account = configuration[key_test_configuration_account]
     else:
         account = test_user_prefix + str(millis)
-    password_argument = ""
     if key_test_configuration_password in configuration:
         password_argument = " " + configuration[key_test_configuration_password]
+    else:
+        password_argument = ""
     switcher = {
         key_application_mail_server_factory: 
             [
