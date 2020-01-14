@@ -60,6 +60,16 @@ def get_shutdown_commands():
     return steps
 
 
+def get_shutdown_command(type):
+    switcher = {
+        key_application_mail_server_factory: 
+            [
+                rm(key_application_mail_server_factory)
+            ]
+    }
+    return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
+
+
 def get_installation_commands(type):
     switcher = {
         key_application_mail_server_factory: 
@@ -138,6 +148,9 @@ def run_test():
                 append_command(steps, ssh_access, command)
 
             for command in get_start_commands(test[key_test_type], test[key_test_configuration]):
+                append_command(steps, ssh_access, command)
+
+            for command in get_shutdown_command(test[key_test_type]):
                 append_command(steps, ssh_access, command)
 
             run(steps)
