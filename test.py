@@ -13,6 +13,9 @@ key_host = "host"
 key_tests = "tests"
 key_test_name = "name"
 key_test_type = "type"
+key_test_configuration = "configuration"
+key_test_configuration_account = "account"
+key_test_configuration_password = "password"
 key_application_mail_server_factory = "Mail-Server-Factory"
 
 test_user_prefix = "test_factoy_user_"
@@ -78,14 +81,21 @@ def get_cleanup_commands(type):
     return switcher.get(type, "echo 'Unsupported application type: " + type + "'")
 
 
-def get_start_commands(type):
+def get_start_commands(type, configuration):
     millis = int(round(time.time() * 1000))
+    if key_test_configuration_account in configuration:
+        account = configuration[key_test_configuration_account]
+    else:
+        account = test_user_prefix + str(millis)
+    password_argument = ""
+    if key_test_configuration_password in configuration:
+        password_argument = " " + configuration[key_test_configuration_password]
     switcher = {
         key_application_mail_server_factory: 
             [
                 concatenate(
                     cd(key_application_mail_server_factory),
-                    "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + " add_account.py " + test_user_prefix + str(millis)
+                    "`sh " + toolkit_directory + "/" + echo_python_cmd_script + "` " + " add_account.py " + account + password_argument
                 )
             ]
     }
@@ -125,7 +135,7 @@ def run_test():
             for command in get_installation_commands(test[key_test_type]):
                 append_command(steps, ssh_access, command)
 
-            for command in get_start_commands(test[key_test_type]):
+            for command in get_start_commands(test[key_test_type], test[key_test_configuration]):
                 append_command(steps, ssh_access, command)
 
             run(steps)
